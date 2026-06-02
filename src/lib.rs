@@ -170,8 +170,7 @@ pub async fn verify_token(
     match body.status.as_str() {
         "OK" => {
             let s = body.session.ok_or("missing session in response")?;
-            let user_id =
-                Uuid::parse_str(&s.user_id).map_err(|_| "invalid user_id in session")?;
+            let user_id = Uuid::parse_str(&s.user_id).map_err(|_| "invalid user_id in session")?;
             Ok(AuthUser {
                 user_id,
                 session_handle: s.session_handle,
@@ -193,12 +192,8 @@ where
 {
     type Rejection = Unauthorized;
 
-    async fn from_request_parts(
-        parts: &mut Parts,
-        state: &S,
-    ) -> Result<Self, Self::Rejection> {
-        let token =
-            extract_token(parts).ok_or(Unauthorized("no session token provided"))?;
+    async fn from_request_parts(parts: &mut Parts, state: &S) -> Result<Self, Self::Rejection> {
+        let token = extract_token(parts).ok_or(Unauthorized("no session token provided"))?;
         verify_token(state.http_client(), state.supertokens_url(), &token)
             .await
             .map_err(Unauthorized)
