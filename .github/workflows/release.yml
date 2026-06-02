@@ -4,26 +4,19 @@ on:
   push:
     tags: ['v*.*.*']
 
+permissions:
+  contents: write
+
 jobs:
   release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
     steps:
-      - name: Generate App Token
-        uses: actions/create-github-app-token@v2
-        id: token
-        with:
-          app-id: ${{ vars.BJORST_BOT_APP_ID }}
-          private-key: ${{ secrets.BJORST_BOT_PRIVATE_KEY }}
-
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          token: ${{ steps.token.outputs.token }}
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          token: ${{ steps.token.outputs.token }}
           generate_release_notes: true
           make_latest: true

@@ -14,17 +14,8 @@ jobs:
     name: Check, Test & Lint
     runs-on: ubuntu-latest
     steps:
-      - name: Generate App Token
-        uses: actions/create-github-app-token@v2
-        id: token
-        with:
-          app-id: ${{ vars.BJORST_BOT_APP_ID }}
-          private-key: ${{ secrets.BJORST_BOT_PRIVATE_KEY }}
-
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          token: ${{ steps.token.outputs.token }}
 
       - name: Rust toolchain
         uses: dtolnay/rust-toolchain@stable
