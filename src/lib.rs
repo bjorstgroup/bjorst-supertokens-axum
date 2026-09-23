@@ -12,6 +12,14 @@
 //! claim parsing, in-process caching ([`VerifyCache`]), and session init flows
 //! that need the raw `existing_payload` before custom claims exist.
 //!
+//! ### Signing people in: [`CoreClient`] and [`transport`] (e.g. gakuin, zaisei)
+//! SuperTokens has no Rust backend SDK, so an API that signs people in talks to
+//! the core itself. [`CoreClient`] is that conversation: sign-up, sign-in,
+//! sessions, email verification, password reset, names, and moving accounts
+//! over from another provider. [`transport`] is how the session reaches a
+//! client: `HttpOnly` cookies for a browser, the body for a native app. The
+//! application keeps its own routes, and anything it decides about a person.
+//!
 //! ## Usage
 //!
 //! 1. Implement [`HasSupertokens`] on your Axum `AppState`.
@@ -35,6 +43,14 @@
 //!     format!("hello {}", user.user_id)
 //! }
 //! ```
+
+pub mod client;
+pub mod transport;
+
+pub use client::{
+    CoreClient, CoreError, CoreUser, CredentialCheck, HashAlgorithm, LoginMethod, MintedSession,
+    Names, SessionSummary, SignIn, SignUp,
+};
 
 use axum::{
     extract::FromRequestParts,
