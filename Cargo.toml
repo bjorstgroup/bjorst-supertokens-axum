@@ -1,10 +1,10 @@
 [package]
 name = "bjorst-supertokens-axum"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Bjorst Engineering <engineering@bjorst.com>"]
 license = "MIT"
-description = "SuperTokens session verification extractor for Axum"
+description = "SuperTokens for Axum: session verification, a client for the core, and session cookies"
 
 [dependencies]
 axum        = { version = "0.8", default-features = false, features = ["json"] }
